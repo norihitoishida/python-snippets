@@ -8,6 +8,7 @@ from pathlib import Path
 
 import requests
 
+# URL & path (sample)
 DATA_PATH = Path("data")
 PATH = DATA_PATH / "PennFudanPed"
 PATH.mkdir(parents=True, exist_ok=True)
