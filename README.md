@@ -1,7 +1,7 @@
 # Python snippets
 
 ### Download zipfile and decompress
-```python:aaa.py
+```python
 import os
 import zipfile
 from pathlib import Path
