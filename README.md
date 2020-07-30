@@ -26,7 +26,7 @@ else:
         print("The download is completed.")
 
 # Decompress
-if (a).exists():
+if (PATH / FOLDERNAME).exists():
     print("Zipfile is already decompressed.")
 else:
     print("Decompressing now...")
