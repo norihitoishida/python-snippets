@@ -35,3 +35,19 @@ else:
         f.extractall(PATH)
         print("The decompression is completed.")
 ```
+
+
+### 
+```python
+
+```
+
+### 
+```python
+
+```
+
+### 
+```python
+
+```
