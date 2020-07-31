@@ -12,7 +12,7 @@ import requests
 DATA_PATH = Path("data")
 PATH = DATA_PATH / "PennFudanPed"
 PATH.mkdir(parents=True, exist_ok=True)
-URL = "https://www.cis.upenn.edu/~jshi/ped_html/PennFudanPed.zip"
+URL = "https://www.cis.upenn.edu/~jshi/ped_html/"
 FILENAME = "PennFudanPed.zip"
 FOLDERNAME = os.path.splitext(FILENAME)[0]
 
@@ -21,7 +21,7 @@ if  (PATH / FILENAME).exists():
     print("Zipfile exists.")
 else:
     print("Downloading now...")
-    content = requests.get(URL).content
+    content = requests.get(URL + FILENAME).content
     with (PATH / FILENAME).open("wb") as f:
         f.write(content)
         print("The download is completed.")
