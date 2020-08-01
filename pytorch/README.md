@@ -13,13 +13,13 @@ transform = transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
 batch_size = 4
-num_workers = 2
+num_workers = 0
 dataroot = "./data"
 
-trainset = torchvision.datasets.CIFAR10(root=dataroot, train=True, download=False, transform=transform)
+trainset = torchvision.datasets.CIFAR10(root=dataroot, train=True, download=True, transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
 
-testset = torchvision.datasets.CIFAR10(root=dataroot, train=False, download=False, transform=transform)
+testset = torchvision.datasets.CIFAR10(root=dataroot, train=False, download=True, transform=transform)
 testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -52,25 +52,38 @@ class Net(nn.Module):
 net = Net()
 
 # =============================================================================
-# criterion, optimizer, fit
+# fit
 # =============================================================================
 import torch.nn.functional as F
 import torch.optim as optim
 
-def fit(epochs, model, loss_func, optimizer, train_dl, valid_dl):
+def fit(epochs, model, criterion, optimizer, train_dl, valid_dl):
+    # CPU / GPU
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     net.to(device)
 
     for epoch in range(epochs):
-        
         model.train()
         for xb, yb in train_dl:
-            loss_batch(model, loss_func, xb, yb, optimizer)
+            # CPU / GPU
+            xb, yb = xb.to(device), yb.to(device)   
+            
+            # zero the parameter gradients
+            optimizer.zero_grad()
+
+            # forward
+            outputs = model(xb)
+            loss = criterion(outputs, yb)
+            
+            # backward
+            loss.backward()
+            
+            # optimize
+            optimizer.step()
 
         model.eval()
         with torch.no_grad():
-            losses, nums = zip(
-                *[loss_batch(model, loss_func, xb, yb) for xb, yb in valid_dl])
+            losses, nums = zip(*[loss_batch(model, loss_func, xb, yb) for xb, yb in valid_dl])
         val_loss = np.sum(np.multiply(losses, nums)) / np.sum(nums)
 
         print(f"epoch:{epoch}, val_loss:{val_loss}")
@@ -81,10 +94,10 @@ def fit(epochs, model, loss_func, optimizer, train_dl, valid_dl):
 fit(
     epochs = 2, 
     model = net, 
-    loss_func=nn.CrossEntropyLoss(), 
-    optimizer=optim.SGD(net.parameters(), lr=0.001, momentum=0.9), 
-    train_dl=, 
-    valid_dl=
+    criterion = nn.CrossEntropyLoss(), 
+    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9), 
+    train_dl = trainloader, 
+    valid_dl = testloader
     )
 
 
