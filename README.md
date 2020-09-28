@@ -2,7 +2,7 @@
 
 # Programming competitions
 
-### UnionFindTree
+### UnionFindTree ([参考](https://note.nkmk.me/python-union-find))
 ```python
 class UnionFind():
     def __init__(self, n):
@@ -51,7 +51,6 @@ class UnionFind():
     def __str__(self):
         return '\n'.join('{}: {}'.format(r, self.members(r)) for r in self.roots())
 ```
-- [参考](https://note.nkmk.me/python-union-find)
 
 # Utils
 
