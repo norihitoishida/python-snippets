@@ -1,5 +1,3 @@
-# Python snippets
-
 # Programming competitions
 
 ### UnionFindTree ([参考](https://note.nkmk.me/python-union-find))
