@@ -1,5 +1,12 @@
 # Programming competitions
 
+### Time-Complexity of operations
+operations for `list`, `set`, `collections.deque`, `dict`
+ - https://wiki.python.org/moin/TimeComplexity
+
+
+
+
 ### UnionFindTree ([参考](https://note.nkmk.me/python-union-find))
 ```python
 class UnionFind():
